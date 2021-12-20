@@ -45,6 +45,6 @@ func DrawChart(res http.ResponseWriter, req *http.Request, latency []float64, ti
 	graph.Render(chart.PNG, res)
 }
 
-func renderHTML(w http.ResponseWriter, r *http.Request) {
+func RenderHTML(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "<h1>Hello Carrot!</h1>")
 }

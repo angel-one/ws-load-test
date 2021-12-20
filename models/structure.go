@@ -5,12 +5,13 @@ import (
 )
 
 type Base struct {
-	URL, Proto string
-	Count      int
-	Msg        []byte
-	Delay      int
-	TickDelay  int
-	Path       string
+	URL       string
+	Proto     string
+	Count     int
+	Msg       []byte
+	Delay     int
+	TickDelay int
+	Path      string
 }
 
 type Routine struct {
