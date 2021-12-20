@@ -5,28 +5,29 @@ import (
 )
 
 type Counter struct {
-	Val int
-	mtx sync.Mutex
-	success, failure int
+	Val     int
+	Mtx     sync.Mutex
+	Success int
+	Failure int
 }
 
 func (counter *Counter) Increment() int {
-	counter.mtx.Lock()
+	counter.Mtx.Lock()
 	counter.Val++
-	counter.mtx.Unlock()
+	counter.Mtx.Unlock()
 	return counter.Val
 }
 
-func (counter *Counter) Success() int {
-	counter.mtx.Lock()
-	counter.success++
-	counter.mtx.Unlock()
-	return counter.success
+func (counter *Counter) HandleSuccess() int {
+	counter.Mtx.Lock()
+	counter.Success++
+	counter.Mtx.Unlock()
+	return counter.Success
 }
 
-func (counter *Counter) Failure() int {
-	counter.mtx.Lock()
-	counter.failure++
-	counter.mtx.Unlock()
-	return counter.failure
+func (counter *Counter) HandleFailure() int {
+	counter.Mtx.Lock()
+	counter.Failure++
+	counter.Mtx.Unlock()
+	return counter.Failure
 }
