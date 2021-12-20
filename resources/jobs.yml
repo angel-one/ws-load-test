@@ -1,4 +1,0 @@
-# Configuration for Jobs (async workers module)
-redisUrl: "127.0.0.1:6379"
-jobsRetentionTimeInHours: 24
-numberOfWorkers: 10

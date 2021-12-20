@@ -3,11 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/angel-one/go-example-project/api"
-	"github.com/angel-one/go-example-project/business"
 	"github.com/angel-one/go-example-project/constants"
-	"github.com/angel-one/go-example-project/jobs"
 	"github.com/angel-one/go-example-project/utils/configs"
-	"github.com/angel-one/go-example-project/utils/database"
 	"github.com/angel-one/go-example-project/utils/flags"
 	"github.com/angel-one/go-example-project/utils/httpclient"
 	"github.com/angel-one/go-utils/log"
@@ -32,9 +29,6 @@ func main() {
 	initConfigs()
 	startLogger()
 	initHTTPClient()
-	initDatabase()
-	initAsyncModules()
-	defer closeDatabase()
 	startRouter()
 }
 
@@ -78,56 +72,6 @@ func initHTTPClient() {
 	if err != nil {
 		log.Fatal(nil).Err(err).Msg("unable to initialize http client")
 	}
-}
-
-func initDatabase() {
-	// init database
-	databaseConfig, err := configs.Get(constants.DatabaseConfig)
-	if err != nil {
-		log.Fatal(nil).Err(err).Msg("error getting database config")
-	}
-	err = database.InitDatabase(database.Config{
-		Server:                databaseConfig.GetString(constants.DatabaseServerConfigKey),
-		Port:                  databaseConfig.GetInt(constants.DatabasePortConfigKey),
-		Name:                  databaseConfig.GetString(constants.DatabaseNameConfigKey),
-		Username:              databaseConfig.GetString(constants.DatabaseUsernameConfigKey),
-		Password:              databaseConfig.GetString(constants.DatabasePasswordConfigKey),
-		MaxOpenConnections:    databaseConfig.GetInt(constants.DatabaseMaxOpenConnectionsKey),
-		MaxIdleConnections:    databaseConfig.GetInt(constants.DatabaseMaxIdleConnectionsKey),
-		ConnectionMaxLifetime: databaseConfig.GetDuration(constants.DatabaseConnectionMaxLifetimeInSecondsKey) * time.Second,
-		ConnectionMaxIdleTime: databaseConfig.GetDuration(constants.DatabaseConnectionMaxIdleTimeInSecondsKey) * time.Second,
-	})
-	if err != nil {
-		log.Fatal(nil).Err(err).Msg("unable to initialize database")
-	}
-}
-
-func closeDatabase() {
-	err := database.Close()
-	if err != nil {
-		log.Fatal(nil).Err(err).Msg("error closing database")
-	}
-}
-
-func initAsyncModules() {
-
-	jobsConfig, err := configs.Get(constants.JobsConfig)
-	if err != nil {
-		log.Fatal(nil).Err(err).Msg("error getting jobs config")
-	}
-
-	jobController := jobs.NewJobController(
-		jobsConfig.GetString(constants.RedisConnectionString),
-		jobsConfig.GetUint(constants.JobsTTLInHrs),
-		jobsConfig.GetInt(constants.NumberOfWorkers))
-
-	// Now pass this to every API module which needs jobs
-	business.InitMaths(jobController)
-	//.. other modules which need jobs here
-
-	// At last spawn the worker
-	go jobController.Start()
-
 }
 
 func startRouter() {

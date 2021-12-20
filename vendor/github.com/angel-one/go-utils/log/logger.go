@@ -5,7 +5,7 @@ import (
 	"github.com/angel-one/go-utils/constants"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"github.com/rs/zerolog/pkgerrors"
+	"runtime/debug"
 )
 
 type Level string
@@ -33,7 +33,7 @@ func (l Level) zeroLogLevel() zerolog.Level {
 
 // InitLogger is used to initialize logger
 func InitLogger(level Level) {
-	zerolog.ErrorStackMarshaler = pkgerrors.MarshalStack
+	zerolog.ErrorStackMarshaler = getErrorStackMarshaller()
 	zerolog.SetGlobalLevel(level.zeroLogLevel())
 	log.Logger = log.With().Caller().Logger()
 }
@@ -70,6 +70,12 @@ func Panic(ctx context.Context) *zerolog.Event {
 // Fatal is the for fatal log
 func Fatal(ctx context.Context) *zerolog.Event {
 	return withID(ctx, log.Fatal())
+}
+
+func getErrorStackMarshaller() func(err error) interface{} {
+	return func(err error) interface{} {
+		return string(debug.Stack())
+	}
 }
 
 func withID(ctx context.Context, event *zerolog.Event) *zerolog.Event {

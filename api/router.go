@@ -24,17 +24,8 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.GET(constants.ActuatorRoute, actuator)
 
 	// adding api
-	router.POST(constants.FullNameRoute, fullName)
-	router.GET(constants.MoxyRoute, moxy)
-	router.POST(constants.CreateCounterRoute, createCounter)
-	router.PUT(constants.IncrementCounterRoute, incrementCounter)
-	router.POST(constants.DecrementCounterRoute, decrementCounter)
-	router.GET(constants.CurrentCountRoute, currentCount)
-
 
 	// async jobs api
-	router.POST(constants.MathsSubmitJobRoute, submitMathsJob)
-	router.GET(constants.MathsGetJobStatusRoute, getJobStatus)
 
 	return router
 }
