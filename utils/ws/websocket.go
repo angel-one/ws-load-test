@@ -7,17 +7,6 @@ import (
 	"net/url"
 )
 
-type completion struct {
-	body struct {
-		code           string
-		fileType       string
-		line           int
-		column         int
-		wordToComplete string
-		offset         int
-	}
-}
-
 func CreateSocket(addr string, urlProto string, path string, counter *models.Counter) (*websocket.Conn, error) {
 	wsaddr := url.URL{Scheme: urlProto, Host: addr, Path: path}
 	c, _, err := websocket.DefaultDialer.Dial(wsaddr.String(), nil)
