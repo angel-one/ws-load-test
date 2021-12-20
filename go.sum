@@ -55,11 +55,11 @@ github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578/go.mod h1:uGdko
 github.com/agiledragon/gomonkey/v2 v2.3.1 h1:k+UnUY0EMNYUFUAQVETGY9uUTxjMdnUkP0ARyJS1zzs=
 github.com/agiledragon/gomonkey/v2 v2.3.1/go.mod h1:ap1AmDzcVOAz1YpeJ3TCzIgstoaWLA6jbbgxfB4w2iY=
 github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
-github.com/angel-one/ws-load-test v0.0.0-20211203082044-3f180165d4ce h1:qVci6ZCK+emy0gZASx0baT4Yp/KiRJ8417abUi84J6E=
-github.com/angel-one/ws-load-test v0.0.0-20211203082044-3f180165d4ce/go.mod h1:yLYg5KFVIkFAh0iZHEzFgTxTVhhP3XgQAxsls0ChXws=
 github.com/angel-one/go-utils v0.1.0/go.mod h1:ppZMnZg0Vqa/3rFES7cykdfA8oGUUnFYV5a2+4qsMFs=
 github.com/angel-one/go-utils v0.4.1 h1:LPUoyFJNMw6ZBk+E/1TwT1xugGkquA7TaStvk1agjLY=
 github.com/angel-one/go-utils v0.4.1/go.mod h1:VQDoKzRYOVRrFWjiHw5smlAqeSpgyznIGXhdD27xNCU=
+github.com/angel-one/ws-load-test v0.0.0-20211203082044-3f180165d4ce h1:qVci6ZCK+emy0gZASx0baT4Yp/KiRJ8417abUi84J6E=
+github.com/angel-one/ws-load-test v0.0.0-20211203082044-3f180165d4ce/go.mod h1:yLYg5KFVIkFAh0iZHEzFgTxTVhhP3XgQAxsls0ChXws=
 github.com/antihax/optional v1.0.0/go.mod h1:uupD/76wgC+ih3iEmQUL+0Ugr19nfwCT1kdvxnR2qWY=
 github.com/appleboy/gin-jwt/v2 v2.7.0 h1:MjbX0OVC1hmb+cYNSW7yrlG8KfIN/X0qn5kqhAsHinY=
 github.com/appleboy/gin-jwt/v2 v2.7.0/go.mod h1:AP2pmslwuqdHcjua9m8APdgqX9Ksx0ZM34d5RGvUYBU=
@@ -230,6 +230,8 @@ github.com/googleapis/gax-go/v2 v2.0.4/go.mod h1:0Wqv26UfaUD9n4G6kQubkQ+KchISgw+
 github.com/googleapis/gax-go/v2 v2.0.5/go.mod h1:DWXyrwAJ9X0FpwwEdw+IPEYBICEFu5mhpdKc/us6bOk=
 github.com/googleapis/gax-go/v2 v2.1.0/go.mod h1:Q3nei7sK6ybPYH7twZdmQpAd1MKb7pfu6SK+H1/DsU0=
 github.com/gopherjs/gopherjs v0.0.0-20181017120253-0766667cb4d1/go.mod h1:wJfORRmW1u3UXTncJ5qlYoELFm8eSnnEO6hX4iZ3EWY=
+github.com/gorilla/websocket v1.4.2 h1:+/TMaTYc4QFitKJxsQ7Yye35DkWvkdLcvGKqM+x0Ufc=
+github.com/gorilla/websocket v1.4.2/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/grpc-ecosystem/grpc-gateway v1.16.0/go.mod h1:BDjrQk3hbvj6Nolgz8mAMFbcEtjT1g+wF4CSlocrBnw=
 github.com/hashicorp/consul/api v1.10.1/go.mod h1:XjsvQN+RJGWI2TWy1/kqaE16HrR2J/FWgkYjdZQsX9M=
 github.com/hashicorp/consul/sdk v0.8.0/go.mod h1:GBvyrGALthsZObzUGsfgHZQDXjg4lOjagTIwIR1vPms=

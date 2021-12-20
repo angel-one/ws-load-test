@@ -9,27 +9,24 @@ import (
 	"github.com/angel-one/ws-load-test/utils/httpclient"
 	"github.com/angel-one/go-utils/log"
 	"github.com/angel-one/go-utils/middlewares"
+	"runtime"
 	"time"
 
 	_ "github.com/angel-one/ws-load-test/docs"
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// @title Go Example Project
-// @version 1.0
-// @description Go Example Project
-// @termsOfService https://swagger.io/terms/
-
-// @contact.name Shubham Sinha
-// @contact.email shubham.sinha@angelbroking.com
-
-// @BasePath /
-
 func main() {
-
 	initConfigs()
 	startLogger()
 	initHTTPClient()
+	runtime.GOMAXPROCS(runtime.NumCPU())
+	latency := make(chan []float64)
+	timeSeries := make(chan []time.Time)
+//test
+	data := <-latency
+	timeData := <-timeSeries
+
 	startRouter()
 }
 
@@ -38,7 +35,6 @@ func initConfigs() {
 }
 
 func startLogger() {
-	// start logger
 	loggerConfig, err := configs.Get(constants.LoggerConfig)
 	if err != nil {
 		log.Fatal(nil).Err(err).Msg("error getting logger config")
@@ -47,13 +43,11 @@ func startLogger() {
 }
 
 func initHTTPClient() {
-	// get application configs
 	applicationConfig, err := configs.Get(constants.ApplicationConfig)
 	if err != nil {
 		log.Fatal(nil).Err(err).Msg("error getting application config")
 	}
 
-	// init http client
 	err = httpclient.Init(httpclient.Config{
 		ConnectTimeout: time.Millisecond *
 			applicationConfig.GetDuration(constants.HTTPConnectTimeoutInMillisKey),
