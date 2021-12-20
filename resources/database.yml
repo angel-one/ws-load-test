@@ -1,0 +1,9 @@
+server: remotemysql.com
+port: 3306
+name: 5Hyn2zVe9K
+username: 5Hyn2zVe9K
+password: uWHcpxGQpl
+maxOpenConnections: 20
+maxIdleConnections: 10
+connectionMaxLifetimeInSeconds: 90
+connectionMaxIdleTimeInSeconds: 30
