@@ -2,7 +2,7 @@ package constants
 
 // common constants
 const (
-	ApplicationName = "go-example-project"
+	ApplicationName = "ws-load-test"
 	MySQLDriverName = "mysql"
 	CounterKey      = "key"
 )

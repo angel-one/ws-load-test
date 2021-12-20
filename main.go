@@ -2,16 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/angel-one/go-example-project/api"
-	"github.com/angel-one/go-example-project/constants"
-	"github.com/angel-one/go-example-project/utils/configs"
-	"github.com/angel-one/go-example-project/utils/flags"
-	"github.com/angel-one/go-example-project/utils/httpclient"
+	"github.com/angel-one/ws-load-test/api"
+	"github.com/angel-one/ws-load-test/constants"
+	"github.com/angel-one/ws-load-test/utils/configs"
+	"github.com/angel-one/ws-load-test/utils/flags"
+	"github.com/angel-one/ws-load-test/utils/httpclient"
 	"github.com/angel-one/go-utils/log"
 	"github.com/angel-one/go-utils/middlewares"
 	"time"
 
-	_ "github.com/angel-one/go-example-project/docs"
+	_ "github.com/angel-one/ws-load-test/docs"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -26,6 +26,7 @@ import (
 // @BasePath /
 
 func main() {
+
 	initConfigs()
 	startLogger()
 	initHTTPClient()
@@ -33,7 +34,6 @@ func main() {
 }
 
 func initConfigs() {
-	// init configs
 	configs.Init(flags.BaseConfigPath())
 }
 

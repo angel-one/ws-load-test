@@ -1,8 +1,8 @@
 package api
 
 import (
-	"github.com/angel-one/go-example-project/constants"
-	"github.com/angel-one/go-example-project/utils/flags"
+	"github.com/angel-one/ws-load-test/constants"
+	"github.com/angel-one/ws-load-test/utils/flags"
 	"github.com/gin-gonic/gin"
 	goActuator "github.com/sinhashubham95/go-actuator"
 )

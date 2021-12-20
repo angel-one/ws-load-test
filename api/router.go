@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/angel-one/go-example-project/constants"
+	"github.com/angel-one/ws-load-test/constants"
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"

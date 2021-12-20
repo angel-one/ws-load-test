@@ -2,14 +2,14 @@ package api_test
 
 import (
 	"bytes"
-	"github.com/angel-one/go-example-project/models"
+	"github.com/angel-one/ws-load-test/models"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
-	"github.com/angel-one/go-example-project/api"
-	"github.com/angel-one/go-example-project/constants"
+	"github.com/angel-one/ws-load-test/api"
+	"github.com/angel-one/ws-load-test/constants"
 	"github.com/stretchr/testify/assert"
 )
 

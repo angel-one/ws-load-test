@@ -3,7 +3,7 @@ module github.com/angel-one/ws-load-test
 go 1.17
 
 require (
-	github.com/angel-one/go-example-project v0.0.0-20211203082044-3f180165d4ce
+	github.com/angel-one/ws-load-test v0.0.0-20211203082044-3f180165d4ce
 	github.com/angel-one/go-utils v0.4.1
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-sql-driver/mysql v1.6.0
