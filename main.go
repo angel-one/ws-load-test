@@ -15,14 +15,24 @@ import (
 	"runtime"
 )
 
+// @title AMX Reports
+// @version 1.0
+// @description AMX Report - Position Report, Trade Report, Order Report
+// @termsOfService https://swagger.io/terms/
+// @securityDefinitions.apikey AuthorizationBearerToken
+// @in header
+// @name Authorization
+// @contact.name Team AMX
+// @contact.email AmxTechTeamInternal@angelbroking.com
+// @BasePath /
 func main() {
 	initConfigs()
 	startLogger()
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	results := make(chan *models.TestResult)
-	business.LoadTest(results)
 	business.SetMainChannel(results)
-	startRouter()
+	go startRouter()
+	business.LoadTest(results)
 }
 
 func initConfigs() {

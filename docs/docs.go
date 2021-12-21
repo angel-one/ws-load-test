@@ -17,12 +17,57 @@ var doc = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "termsOfService": "https://swagger.io/terms/",
+        "contact": {
+            "name": "Team AMX",
+            "email": "AmxTechTeamInternal@angelbroking.com"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/CGI/PositionReport": {
+            "post": {
+                "description": "Provides position, trade, order and other reports",
+                "tags": [
+                    "Position Report API V1"
+                ],
+                "summary": "Position Report",
+                "parameters": [
+                    {
+                        "description": "201|A599059|A599059|26F638C8EADE24F38A6480D7EB53DA||||",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "251|0|0000306|nse_cm|1594|A599059|CNC|INFY-EQ|INFY||EQ||-1||1|2|-1|INFOSYS LIMITED|1|5|1|1|1|1|1|0|171555|0|0|0|0|0|171555|0|171555|-171555|1|171555|0|0|0|171555|0|171555^nse_cm|22|A599059|CNC|ACC-EQ|ACC||EQ||-1||1|2|-1|ACC LIMITED|1|5|1|1|1|1|2|0|451510|0|0|0|0|0|225755|0|225755|-451510|2|451510|0|0|0|225755|0|225755^",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "250|2|0018|Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "AuthorizationBearerToken": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
 }`
 
 type swaggerInfo struct {
@@ -36,12 +81,12 @@ type swaggerInfo struct {
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
-	Version:     "",
+	Version:     "1.0",
 	Host:        "",
-	BasePath:    "",
+	BasePath:    "/",
 	Schemes:     []string{},
-	Title:       "",
-	Description: "",
+	Title:       "AMX Reports",
+	Description: "AMX Report - Position Report, Trade Report, Order Report",
 }
 
 type s struct{}

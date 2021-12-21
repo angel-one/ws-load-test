@@ -5,8 +5,8 @@ import (
 )
 
 func MetricRoutes(group *gin.RouterGroup) {
-	group.GET("welcome", welcomeController)
-	group.GET("latency", latencyController)
+	group.GET("/welcome", welcomeController)
+	group.GET("/latency", latencyController)
 }
 
 
