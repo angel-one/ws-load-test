@@ -8,9 +8,12 @@ import (
 var (
 	host           = flag.String(constants.HostKey, constants.HostDefaultValue, constants.HostUsage)
 	protocol       = flag.String(constants.ProtocolKey, constants.ProtocolDefaultValue, constants.ProtocolUsage)
-	request        = flag.Int(constants.RequestKey, constants.RequestDefaultValue, constants.RequestUsage)
-	writeTime      = flag.Int(constants.WriteTimeKey, constants.WriteTimeValue, constants.WriteTimeUsage)
-	holdTime       = flag.Int(constants.HoldTimeKey, constants.HoldTimeDefaultValue, constants.HoldTimeUsage)
+	requestCount   = flag.Int(constants.RequestCountKey, constants.RequestCountDefaultValue, constants.RequestCountUsage)
+	gapTime        = flag.Int(constants.GapTimeKey, constants.GapTimeValue, constants.GapTimeUsage)
+	lifeTime       = flag.Int(constants.LifeTimeKey, constants.LifeTimeDefaultValue, constants.LifeTimeUsage)
+	strategy       = flag.String(constants.StrategyKey, constants.StrategyDefaultValue, constants.StrategyUsage)
+	messageText    = flag.String(constants.MessageTextKey, constants.MessageTextDefaultValue, constants.MessageTextUsage)
+	writeTime      = flag.Int(constants.WriteTimeKey, constants.WriteTimeDefaultValue, constants.WriteTimeUsage)
 	path           = flag.String(constants.PathKey, constants.PathDefaultValue, constants.PathUsage)
 	baseConfigPath = flag.String(constants.BaseConfigPathKey, constants.BaseConfigPathDefaultValue,
 		constants.BaseConfigPathUsage)
@@ -28,6 +31,22 @@ func Host() string {
 	return *host
 }
 
+func Strategy() string {
+	return *strategy
+}
+
+func MessageText() string {
+	return *messageText
+}
+
+func WriteTime() int {
+	return *writeTime
+}
+
+func LifeTime() int {
+	return *lifeTime
+}
+
 func Protocol() string {
 	return *protocol
 }
@@ -36,14 +55,14 @@ func Path() string {
 	return *path
 }
 
-func WriteTime() int {
-	return *writeTime
+func GapTime() int {
+	return *gapTime
 }
 
 func HoldTime() int {
-	return *holdTime
+	return *lifeTime
 }
 
 func Request() int {
-	return *request
+	return *requestCount
 }

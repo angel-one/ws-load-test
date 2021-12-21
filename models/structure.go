@@ -4,19 +4,10 @@ import (
 	"time"
 )
 
-type Base struct {
-	URL       string
-	Proto     string
-	Count     int
-	Msg       []byte
-	Delay     int
-	TickDelay int
-	Path      string
-}
-
-type Routine struct {
-	SendTime    time.Time
-	ReceiveTime time.Time
-	Diff        time.Duration
-	ReceivedMsg string
+type TestResult struct {
+	SendTimeLatest    time.Time
+	ReceiveTimeLatest time.Time
+	TimeDiff          int64
+	ReceivedMsgCount  int64
+	SendMsgCount      int64
 }

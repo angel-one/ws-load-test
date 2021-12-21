@@ -9,7 +9,6 @@ import (
 	"github.com/angel-one/ws-load-test/utils/chart"
 	"github.com/angel-one/ws-load-test/utils/configs"
 	"github.com/angel-one/ws-load-test/utils/flags"
-	"github.com/angel-one/ws-load-test/utils/httpclient"
 	"net/http"
 	"runtime"
 	"time"
@@ -21,7 +20,6 @@ import (
 func main() {
 	initConfigs()
 	startLogger()
-	initHTTPClient()
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	latency := make(chan []float64)
 	timeSeries := make(chan []time.Time)
@@ -47,32 +45,6 @@ func startLogger() {
 		log.Fatal(nil).Err(err).Msg("error getting logger config")
 	}
 	log.InitLogger(log.Level(loggerConfig.GetString(constants.LogLevelConfigKey)))
-}
-
-func initHTTPClient() {
-	applicationConfig, err := configs.Get(constants.ApplicationConfig)
-	if err != nil {
-		log.Fatal(nil).Err(err).Msg("error getting application config")
-	}
-
-	err = httpclient.Init(httpclient.Config{
-		ConnectTimeout: time.Millisecond *
-			applicationConfig.GetDuration(constants.HTTPConnectTimeoutInMillisKey),
-		KeepAliveDuration: time.Millisecond *
-			applicationConfig.GetDuration(constants.HTTPKeepAliveDurationInMillisKey),
-		MaxIdleConnections: applicationConfig.GetInt(constants.HTTPMaxIdleConnectionsKey),
-		IdleConnectionTimeout: time.Millisecond *
-			applicationConfig.GetDuration(constants.HTTPIdleConnectionTimeoutInMillisKey),
-		TLSHandshakeTimeout: time.Millisecond *
-			applicationConfig.GetDuration(constants.HTTPTlsHandshakeTimeoutInMillisKey),
-		ExpectContinueTimeout: time.Millisecond *
-			applicationConfig.GetDuration(constants.HTTPExpectContinueTimeoutInMillisKey),
-		Timeout: time.Millisecond *
-			applicationConfig.GetDuration(constants.HTTPTimeoutInMillisKey),
-	})
-	if err != nil {
-		log.Fatal(nil).Err(err).Msg("unable to initialize http client")
-	}
 }
 
 func StartHTTPServer(port string, latency []float64, timeSeries []time.Time) {

@@ -1,74 +1,45 @@
 package business
 
 import (
+	"github.com/angel-one/go-utils/log"
+	"github.com/angel-one/ws-load-test/business/strategy"
 	"github.com/angel-one/ws-load-test/models"
+	"github.com/angel-one/ws-load-test/utils/flags"
 	"github.com/angel-one/ws-load-test/utils/ws"
-	"github.com/gorilla/websocket"
-	"log"
 	"sync"
 	"time"
 )
 
-func receiveMsg(wsconn *websocket.Conn, done chan *models.Routine, rout *models.Routine) {
-	for {
-		_, message, err := wsconn.ReadMessage()
-		rout.ReceiveTime = time.Now()
-		rout.Diff = rout.ReceiveTime.Sub(rout.SendTime)
-		rout.ReceivedMsg = string(message)
-		if err != nil {
-			log.Println("read:", err)
-			return
-		}
-		done <- rout
-	}
-}
-
-func writeMsg(wsconn *websocket.Conn, base *models.Base, rout *models.Routine) {
-	time.Sleep(time.Second * time.Duration(base.Delay))
-	rout.SendTime = time.Now()
-	wsconn.WriteMessage(websocket.TextMessage, base.Msg)
-}
-
-func singleTest(counter *models.Counter, queue chan *models.Routine, base *models.Base, rout *models.Routine) {
-	doneCh := make(chan *models.Routine)
-	conn, err := ws.CreateSocket(base.URL, base.Proto, base.Path, counter)
+func test(counter *models.Counter, queue chan *models.TestResult, result *models.TestResult) {
+	conn, err := ws.CreateSocket(flags.Host(), flags.Protocol(), flags.Path(), counter)
+	defer conn.Close()
 	if err != nil {
+		log.Error(nil).Err(err).Msg("not able to create a ws connection")
 		return
 	}
-	go writeMsg(conn, base, rout)
-	go receiveMsg(conn, doneCh, rout)
-	queue <- <-doneCh
+	if flags.Strategy() != "" {
+		if flags.Strategy() == "ping_pong" {
+			strategy.HandlePingPong(conn, result)
+		} else if flags.Strategy() == "exchange_tick" {
+			strategy.HandleExchangeTick(conn, result)
+		}
+	} else {
+		strategy.HandleBasic(conn, result)
+	}
+	queue <-result
 }
 
-func LoadTest(base *models.Base, latencyCh chan []float64, timeCh chan []time.Time) {
+func LoadTest(queue chan *models.TestResult) {
 
-	queue := make(chan *models.Routine, 1)
 	globalCounter := &models.Counter{0, sync.Mutex{}, 0, 0}
-	localCounter := 0
+	counter := 0
 
-	var latency []float64
-	var timeSeries []time.Time
-
-	for range time.Tick(time.Millisecond * time.Duration(base.TickDelay)) {
-		routine := &models.Routine{time.Now(), time.Now(), 0, ""}
-		go singleTest(globalCounter, queue, base, routine)
-		localCounter++
-		if localCounter == base.Count {
+	for range time.Tick(time.Millisecond * time.Duration(flags.GapTime())) {
+		routine := &models.TestResult{time.Now(), time.Now(), 0, 0, 0}
+		go test(globalCounter, queue, routine)
+		counter++
+		if counter == flags.Request() {
 			break
 		}
 	}
-
-	go func() {
-		bufferLimit := 0
-		for req := range queue {
-			latency = append(latency, req.Diff.Seconds()*1000)
-			timeSeries = append(timeSeries, req.SendTime)
-			bufferLimit++
-			if bufferLimit == base.Count {
-				latencyCh <- latency
-				timeCh <- timeSeries
-			}
-		}
-	}()
-
 }

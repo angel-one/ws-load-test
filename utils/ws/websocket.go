@@ -13,11 +13,10 @@ func CreateSocket(addr string, urlProto string, path string, counter *models.Cou
 	counter.Increment()
 	if err != nil {
 		fmt.Println("Broken WebSocket Conn:", counter.Val)
-		counter.Failure()
+		counter.HandleFailure()
 	} else {
 		fmt.Println("Created WebSocket Conn:", counter.Val)
-		counter.Success()
+		counter.HandleSuccess()
 	}
-	fmt.Println("Success and Failures", counter.Success(), counter.Failure())
 	return c, err
 }
