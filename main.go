@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/angel-one/go-utils/log"
+	"github.com/angel-one/go-utils/middlewares"
+	"github.com/angel-one/ws-load-test/api"
 	"github.com/angel-one/ws-load-test/business"
 	"github.com/angel-one/ws-load-test/constants"
 	_ "github.com/angel-one/ws-load-test/docs"
@@ -20,7 +22,7 @@ func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	results := make(chan *models.TestResult)
 	business.LoadTest(results)
-	business.HandleMetrices(results)
+	business.SetMainChannel(results)
 	StartHTTPServer()
 	fmt.Scanln()
 }
@@ -41,4 +43,13 @@ func StartHTTPServer() {
 	err := http.ListenAndServe(":"+"8090", nil)
 	if err != nil {
 	}
+}
+
+func startRouter() {
+	router := api.GetRouter(middlewares.Logger(middlewares.LoggerMiddlewareOptions{}))
+	err := router.Run(fmt.Sprintf(":%d", flags.ServerPort()))
+	if err != nil {
+		log.Fatal(nil).Err(err).Msg("error starting router")
+	}
+	log.Info(nil).Msg("router started")
 }

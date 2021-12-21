@@ -1,4 +1,4 @@
-package chart
+package charts
 
 import (
 	"fmt"
@@ -15,16 +15,16 @@ func makeRange(min, max int) []float64 {
 	return a
 }
 
-func DrawChart(res http.ResponseWriter, req *http.Request, latency []float64, timeSeries []time.Time) {
+func DrawChart(data []float64, timeSeries []time.Time, xAxis string, yAxis string) *chart.Chart{
 
 	graph := chart.Chart{
 		XAxis: chart.XAxis{
-			Name:      "Requests Index",
+			Name:      xAxis,
 			NameStyle: chart.StyleShow(),
 			Style:     chart.StyleShow(),
 		},
 		YAxis: chart.YAxis{
-			Name:      "Latency Count",
+			Name:      yAxis,
 			NameStyle: chart.StyleShow(),
 			Style:     chart.StyleShow(),
 		},
@@ -35,14 +35,13 @@ func DrawChart(res http.ResponseWriter, req *http.Request, latency []float64, ti
 					StrokeColor: chart.GetDefaultColor(0).WithAlpha(64),
 					FillColor:   chart.GetDefaultColor(0).WithAlpha(64),
 				},
-				XValues: makeRange(1, len(latency)),
-				YValues: latency,
+				XValues: makeRange(1, len(data)),
+				YValues: data,
 			},
 		},
 	}
 
-	res.Header().Set("Content-Type", "image/png")
-	graph.Render(chart.PNG, res)
+	return &graph
 }
 
 func RenderHTML(w http.ResponseWriter, r *http.Request) {

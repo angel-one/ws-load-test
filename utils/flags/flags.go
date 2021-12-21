@@ -6,6 +6,7 @@ import (
 )
 
 var (
+	serverPort     = flag.Int(constants.PortKey, constants.PortDefaultValue, constants.PortUsage)
 	host           = flag.String(constants.HostKey, constants.HostDefaultValue, constants.HostUsage)
 	protocol       = flag.String(constants.ProtocolKey, constants.ProtocolDefaultValue, constants.ProtocolUsage)
 	requestCount   = flag.Int(constants.RequestCountKey, constants.RequestCountDefaultValue, constants.RequestCountUsage)
@@ -65,4 +66,8 @@ func HoldTime() int {
 
 func Request() int {
 	return *requestCount
+}
+
+func ServerPort() int {
+	return *serverPort
 }
