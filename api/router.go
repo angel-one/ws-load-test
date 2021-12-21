@@ -17,15 +17,11 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.Use(middlewares...)
 	router.Use(gin.Recovery())
 
-	// configure swagger
 	router.GET(constants.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-	// configure actuator
 	router.GET(constants.ActuatorRoute, actuator)
 
-	// adding api
-
-	// async jobs api
+	reportRouter := router.Group("metric")
+	MetricRoutes(reportRouter)
 
 	return router
 }

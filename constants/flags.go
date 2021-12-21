@@ -2,9 +2,6 @@ package constants
 
 // Flag constants
 const (
-	EnvKey                     = "env"
-	EnvDefaultValue            = ""
-	EnvUsage                   = "application.yml runtime environment"
 	PortKey                    = "port"
 	PortDefaultValue           = 8080
 	PortUsage                  = "application.yml port"
@@ -17,10 +14,11 @@ const (
 	ProtocolKey                = "protocol"
 	ProtocolDefaultValue       = "wss"
 	ProtocolUsage              = "Connection type"
-	RequestCountKey            = "request"
+	RequestCountKey            = "requestCount"
 	RequestCountDefaultValue   = 6000
 	RequestCountUsage          = "Total number of requests"
-	GapTimeKey                 = "wtime"
+	PathKey                    = "path"
+	GapTimeKey                 = "gapTime"
 	GapTimeValue               = 100
 	GapTimeUsage               = "number of seconds to wait before writing to websockets"
 	PathDefaultValue           = "/somepath"

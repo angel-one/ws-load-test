@@ -12,7 +12,6 @@ import (
 	"github.com/angel-one/ws-load-test/utils/configs"
 	"github.com/angel-one/ws-load-test/utils/flags"
 	_ "github.com/go-sql-driver/mysql"
-	"net/http"
 	"runtime"
 )
 
@@ -23,8 +22,7 @@ func main() {
 	results := make(chan *models.TestResult)
 	business.LoadTest(results)
 	business.SetMainChannel(results)
-	StartHTTPServer()
-	fmt.Scanln()
+	startRouter()
 }
 
 func initConfigs() {
@@ -37,12 +35,6 @@ func startLogger() {
 		log.Fatal(nil).Err(err).Msg("error getting logger config")
 	}
 	log.InitLogger(log.Level(loggerConfig.GetString(constants.LogLevelConfigKey)))
-}
-
-func StartHTTPServer() {
-	err := http.ListenAndServe(":"+"8090", nil)
-	if err != nil {
-	}
 }
 
 func startRouter() {

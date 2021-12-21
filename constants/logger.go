@@ -6,7 +6,6 @@ const (
 	LatencyKey    = "latency"
 	ClientIPKey   = "clientIP"
 	MethodKey     = "method"
-	PathKey       = "path"
 	ErrorKey      = "error"
 
 	HTTPConfigKey     = "httpConfig"

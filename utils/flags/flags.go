@@ -60,10 +60,6 @@ func GapTime() int {
 	return *gapTime
 }
 
-func HoldTime() int {
-	return *lifeTime
-}
-
 func Request() int {
 	return *requestCount
 }
