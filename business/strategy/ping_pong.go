@@ -16,7 +16,7 @@ func HandlePingPong(wsconn *websocket.Conn, testState *models.TestResult) {
 			_, message, err := wsconn.ReadMessage()
 			testState.ReceiveTimeLatest = time.Now()
 			testState.ReceivedMsgCount++
-			testState.TimeDiff = testState.TimeDiff - testState.SendTimeLatest.UnixMilli()
+			testState.TimeDiff = testState.TimeDiff - float64(testState.SendTimeLatest.UnixMilli())
 			if err != nil {
 				log.Error(nil).Err(err).Msg("error receiving message from ws")
 				return
@@ -30,7 +30,7 @@ func HandlePingPong(wsconn *websocket.Conn, testState *models.TestResult) {
 		time.Sleep(time.Second * time.Duration(flags.WriteTime()))
 		testState.SendTimeLatest = time.Now()
 		testState.SendMsgCount++
-		testState.TimeDiff = testState.TimeDiff - testState.SendTimeLatest.UnixMilli()
+		testState.TimeDiff = testState.TimeDiff - float64(testState.SendTimeLatest.UnixMilli())
 		wsconn.WriteMessage(websocket.TextMessage, []byte("ping"))
 		select {
 		case <-done:

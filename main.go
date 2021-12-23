@@ -28,7 +28,7 @@ func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	results := make(chan *models.TestResult)
 	business.SetMainChannel(results)
-	business.Init()
+	go business.Init()
 	go startRouter()
 	business.LoadTest(results)
 }
