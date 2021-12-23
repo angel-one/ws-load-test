@@ -27,45 +27,23 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/CGI/PositionReport": {
-            "post": {
-                "description": "Provides position, trade, order and other reports",
+        "/latency": {
+            "get": {
+                "description": "latency",
                 "tags": [
-                    "Position Report API V1"
+                    "Latency API V1"
                 ],
-                "summary": "Position Report",
-                "parameters": [
-                    {
-                        "description": "201|A599059|A599059|26F638C8EADE24F38A6480D7EB53DA||||",
-                        "name": "request",
-                        "in": "body",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "251|0|0000306|nse_cm|1594|A599059|CNC|INFY-EQ|INFY||EQ||-1||1|2|-1|INFOSYS LIMITED|1|5|1|1|1|1|1|0|171555|0|0|0|0|0|171555|0|171555|-171555|1|171555|0|0|0|171555|0|171555^nse_cm|22|A599059|CNC|ACC-EQ|ACC||EQ||-1||1|2|-1|ACC LIMITED|1|5|1|1|1|1|2|0|451510|0|0|0|0|0|225755|0|225755|-451510|2|451510|0|0|0|225755|0|225755^",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "250|2|0018|Error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
+                "summary": "Latency"
             }
-        }
-    },
-    "securityDefinitions": {
-        "AuthorizationBearerToken": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
+        },
+        "/welcome": {
+            "get": {
+                "description": "welcome",
+                "tags": [
+                    "Welcome API V1"
+                ],
+                "summary": "Welcome"
+            }
         }
     }
 }`
@@ -85,8 +63,8 @@ var SwaggerInfo = swaggerInfo{
 	Host:        "",
 	BasePath:    "/",
 	Schemes:     []string{},
-	Title:       "AMX Reports",
-	Description: "AMX Report - Position Report, Trade Report, Order Report",
+	Title:       "WS Load Test",
+	Description: "Load test of websockets",
 }
 
 type s struct{}

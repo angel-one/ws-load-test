@@ -20,7 +20,7 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.GET(constants.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.GET(constants.ActuatorRoute, actuator)
 
-	reportRouter := router.Group("metric")
+	reportRouter := router.Group("")
 	MetricRoutes(reportRouter)
 
 	return router

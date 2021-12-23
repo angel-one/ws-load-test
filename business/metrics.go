@@ -6,11 +6,21 @@ import (
 )
 
 var mainCh chan *models.TestResult
+var TimeCh []time.Time
+var Latency []int64
 
-func HandleMetricsLatency() ([]float64, []time.Time) {
-	return nil, nil
+func Init() {
+	go func() {
+		data := <-mainCh
+		TimeCh = append(TimeCh, data.SendTimeLatest)
+		Latency = append(Latency, data.TimeDiff)
+	}()
 }
 
-func SetMainChannel (ch chan *models.TestResult){
+func HandleMetricsLatency() ([]int64, []time.Time) {
+	return Latency, TimeCh
+}
+
+func SetMainChannel(ch chan *models.TestResult) {
 	mainCh = ch
 }
