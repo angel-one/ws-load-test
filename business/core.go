@@ -15,29 +15,41 @@ func test(counter *models.Counter, queue chan *models.TestResult, result *models
 	defer conn.Close()
 	if err != nil {
 		log.Error(nil).Err(err).Msg("not able to create a ws connection")
+		result.HasEnded = true
+		result.HasError = true
+		result.EndTime = time.Now()
+		result.EventType = "error"
+		result.EventTime = time.Now()
+		sendResult  := result
+		queue <- sendResult
 		return
 	}
 	if flags.Strategy() != "" {
 		if flags.Strategy() == "ping_pong" {
-			strategy.HandlePingPong(conn, result)
+			strategy.HandlePingPong(conn, result, queue)
 		} else if flags.Strategy() == "exchange_tick" {
 			strategy.HandleExchangeTick(conn, result)
 		}
 	} else {
 		strategy.HandleBasic(conn, result)
 	}
-	queue <-result
 }
 
 func LoadTest(queue chan *models.TestResult) {
 
 	globalCounter := &models.Counter{0, sync.Mutex{}, 0, 0}
 	counter := 0
-
 	for range time.Tick(time.Millisecond * time.Duration(flags.GapTime())) {
-		routine := &models.TestResult{time.Now(), time.Now(), 0, 0, 0}
-		go test(globalCounter, queue, routine)
 		counter++
+		routine := &models.TestResult{}
+		routine.ID = int64(counter)
+		routine.StartTime = time.Now()
+		routine.HasEnded = false
+		routine.HasError = false
+		routine.Latency = 0
+		routine.EventTime = time.Now()
+		routine.EventType = "start"
+		go test(globalCounter, queue, routine)
 		if counter == flags.Request() {
 			break
 		}

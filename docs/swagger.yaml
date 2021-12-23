@@ -8,12 +8,36 @@ info:
   title: WS Load Test
   version: "1.0"
 paths:
+  /connection:
+    get:
+      description: Connection
+      summary: Connection
+      tags:
+      - Connection API V1
+  /error:
+    get:
+      description: Error
+      summary: Error
+      tags:
+      - Error API V1
   /latency:
     get:
       description: latency
       summary: Latency
       tags:
       - Latency API V1
+  /receive:
+    get:
+      description: Receive
+      summary: Receive
+      tags:
+      - Receive API V1
+  /send:
+    get:
+      description: Error
+      summary: Send
+      tags:
+      - Send API V1
   /welcome:
     get:
       description: welcome

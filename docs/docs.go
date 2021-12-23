@@ -27,6 +27,24 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/connection": {
+            "get": {
+                "description": "Connection",
+                "tags": [
+                    "Connection API V1"
+                ],
+                "summary": "Connection"
+            }
+        },
+        "/error": {
+            "get": {
+                "description": "Error",
+                "tags": [
+                    "Error API V1"
+                ],
+                "summary": "Error"
+            }
+        },
         "/latency": {
             "get": {
                 "description": "latency",
@@ -34,6 +52,24 @@ var doc = `{
                     "Latency API V1"
                 ],
                 "summary": "Latency"
+            }
+        },
+        "/receive": {
+            "get": {
+                "description": "Receive",
+                "tags": [
+                    "Receive API V1"
+                ],
+                "summary": "Receive"
+            }
+        },
+        "/send": {
+            "get": {
+                "description": "Error",
+                "tags": [
+                    "Send API V1"
+                ],
+                "summary": "Send"
             }
         },
         "/welcome": {

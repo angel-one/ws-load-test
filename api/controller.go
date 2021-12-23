@@ -35,3 +35,59 @@ func latencyController(ctx *gin.Context) {
 	graph := charts.DrawChart(data, timeSeries, "time", "latency")
 	graph.Render(chart.PNG, ctx.Writer)
 }
+
+// Ws Load Test Connection godoc
+// @Summary Connection
+// @Tags Connection API V1
+// @Description Connection
+// @Router /connection [get]
+func connectionController(ctx *gin.Context) {
+	log.Debug(ctx).Msg("received report request")
+	ctx.Writer.WriteHeader(http.StatusOK)
+	ctx.Writer.Header().Set("Content-Type", "image/png")
+	data, timeSeries := business.HandleMetricsConnection()
+	graph := charts.DrawChart(data, timeSeries, "time", "total connections")
+	graph.Render(chart.PNG, ctx.Writer)
+}
+
+// Ws Load Test Error godoc
+// @Summary Error
+// @Tags Error API V1
+// @Description Error
+// @Router /error [get]
+func errorController(ctx *gin.Context) {
+	log.Debug(ctx).Msg("received report request")
+	ctx.Writer.WriteHeader(http.StatusOK)
+	ctx.Writer.Header().Set("Content-Type", "image/png")
+	data, timeSeries := business.HandleMetricsError()
+	graph := charts.DrawChart(data, timeSeries, "time", "errors")
+	graph.Render(chart.PNG, ctx.Writer)
+}
+
+// Ws Load Test Send godoc
+// @Summary Send
+// @Tags Send API V1
+// @Description Error
+// @Router /send [get]
+func sendController(ctx *gin.Context) {
+	log.Debug(ctx).Msg("received report request")
+	ctx.Writer.WriteHeader(http.StatusOK)
+	ctx.Writer.Header().Set("Content-Type", "image/png")
+	data, timeSeries := business.HandleMetricsSend()
+	graph := charts.DrawChart(data, timeSeries, "time", "errors")
+	graph.Render(chart.PNG, ctx.Writer)
+}
+
+// Ws Load Test Receive godoc
+// @Summary Receive
+// @Tags Receive API V1
+// @Description Receive
+// @Router /receive [get]
+	func receiveController(ctx *gin.Context) {
+	log.Debug(ctx).Msg("received report request")
+	ctx.Writer.WriteHeader(http.StatusOK)
+	ctx.Writer.Header().Set("Content-Type", "image/png")
+	data, timeSeries := business.HandleMetricsReceive()
+	graph := charts.DrawChart(data, timeSeries, "time", "errors")
+	graph.Render(chart.PNG, ctx.Writer)
+}

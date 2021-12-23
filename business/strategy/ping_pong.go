@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func HandlePingPong(wsconn *websocket.Conn, testState *models.TestResult) {
+func HandlePingPong(wsconn *websocket.Conn, testState *models.TestResult, queue chan *models.TestResult) {
 	done := make(chan struct{})
 	go func() {
 		defer close(done)
@@ -16,11 +16,18 @@ func HandlePingPong(wsconn *websocket.Conn, testState *models.TestResult) {
 			_, message, err := wsconn.ReadMessage()
 			testState.ReceiveTimeLatest = time.Now()
 			testState.ReceivedMsgCount++
-			testState.TimeDiff = testState.TimeDiff - float64(testState.SendTimeLatest.UnixMilli())
+			if testState.ReceivedMsgCount == 1{
+				testState.ReceiveTimeFirst = time.Now()
+			}
+			testState.Latency = testState.Latency - float64(testState.SendTimeLatest.UnixMilli())
+			testState.EventType = "receive"
+			testState.EventTime = time.Now()
 			if err != nil {
 				log.Error(nil).Err(err).Msg("error receiving message from ws")
 				return
 			}
+			sendResult := testState
+			queue <- sendResult
 			log.Info(nil).Str("message", string(message)).Msg("received message from ws")
 		}
 	}()
@@ -30,14 +37,34 @@ func HandlePingPong(wsconn *websocket.Conn, testState *models.TestResult) {
 		time.Sleep(time.Second * time.Duration(flags.WriteTime()))
 		testState.SendTimeLatest = time.Now()
 		testState.SendMsgCount++
-		testState.TimeDiff = testState.TimeDiff - float64(testState.SendTimeLatest.UnixMilli())
+		if testState.SendMsgCount == 1{
+			testState.SendTimeFirst =  time.Now()
+		}
+		testState.EventType = "send"
+		testState.Latency = testState.Latency - float64(testState.SendTimeLatest.UnixMilli())
+		testState.EventTime = time.Now()
 		wsconn.WriteMessage(websocket.TextMessage, []byte("ping"))
+		log.Info(nil).Str("message", string("ping")).Msg("sent message to ws")
+		sendResult := testState
+		queue <- sendResult
 		select {
 		case <-done:
 			log.Info(nil).Msg("closing ws")
+			testState.HasEnded = true
+			testState.EndTime = time.Now()
+			testState.EventType = "done"
+			testState.EventTime = time.Now()
+			sendResult := testState
+			queue <- sendResult
 			return
 		case <-ticker.C:
 			log.Info(nil).Msg("closing ws post life time")
+			testState.HasEnded = true
+			testState.EndTime = time.Now()
+			testState.EventType = "done"
+			testState.EventTime = time.Now()
+			sendResult := testState
+			queue <- sendResult
 			return
 		}
 	}

@@ -45,5 +45,5 @@ func DrawChart(data []float64, timeSeries []time.Time, xAxis string, yAxis strin
 }
 
 func RenderHTML(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "<h1>Hello Carrot!</h1>")
+	fmt.Fprintf(w, "Hello Test!")
 }
