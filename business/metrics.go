@@ -7,44 +7,94 @@ import (
 
 var mainCh chan *models.TestResult
 var LatencyTime []time.Time
-var Latency []float64
+var Latency []int64
+var TotalConnection []float64
 var Error []float64
-var ErrorTime []time.Time
 var Receive []float64
 var ReceiveTime []time.Time
 var Send []float64
 var SendTime []time.Time
-var TotalConnection []float64
+var ErrorTime []time.Time
 var TotalConnectionTime []time.Time
 
+var lastErrorTime time.Time
+var lastConnectionTime time.Time
+var lastSendTime time.Time
+var lastLatencyTime time.Time
+var lastReceiveTime time.Time
+
+func processEvent(eventTime time.Time, lastTime time.Time, slice []float64)  []float64{
+	if len(slice) == 0 {
+		slice = append(slice, 0)
+	}
+	if eventTime.Minute() == lastTime.Minute() {
+		var val float64= 0
+		if len(slice) > 0 {
+			val = slice[len(slice)-1]
+		}
+		slice = slice[:len(slice)-1]
+		slice = append(slice, val+1)
+	} else {
+		for i := lastTime.Minute() + 1; i < eventTime.Minute()-1; i++ {
+			slice = append(slice, 0)
+		}
+		slice = append(slice, 1)
+	}
+	return slice
+}
+
+func processLatency(eventTime time.Time, lastTime time.Time, slice []int64, latency int64)  []int64{
+	if len(slice) == 0 {
+		slice = append(slice, 0)
+	}
+	if eventTime.Minute() == lastTime.Minute() {
+		var val int64= 0
+		if len(slice) > 0 {
+			val = slice[len(slice)-1]
+		}
+		slice = slice[:len(slice)-1]
+		slice = append(slice, val+latency)
+	} else {
+		for i := lastTime.Minute() + 1; i < eventTime.Minute()-1; i++ {
+			slice = append(slice, 0)
+		}
+		slice = append(slice, latency)
+	}
+	return slice
+}
 
 func Init() {
+	lastErrorTime = time.Now()
+	lastConnectionTime = time.Now()
+	lastSendTime = time.Now()
+	lastLatencyTime = time.Now()
+	lastReceiveTime = time.Now()
 	for {
 		data := <-mainCh
 		if data.EventType == "start" {
-			TotalConnectionTime = append(TotalConnectionTime, data.EventTime)
-			TotalConnection = append(TotalConnection, 1)
-		} else if data.EventType == "end" {
-			TotalConnectionTime = append(TotalConnectionTime, data.EventTime)
-			TotalConnection = append(TotalConnection, -1)
+			TotalConnection = processEvent(data.EventTime, lastConnectionTime, TotalConnection)
+			lastConnectionTime = data.EventTime
+		} else if data.EventType == "done" {
+			TotalConnection = processEvent(data.EventTime, lastConnectionTime, TotalConnection)
+			lastConnectionTime = data.EventTime
 		} else if data.EventType == "error" {
-			ErrorTime = append(ErrorTime, data.EventTime)
-			Error = append(Error, 1)
+			Error = processEvent(data.EventTime, lastErrorTime, Error)
+			lastErrorTime = data.EventTime
 		} else if data.EventType == "send" {
-			SendTime = append(SendTime, data.EventTime)
-			Send = append(Send, 1)
-			LatencyTime = append(LatencyTime, data.EventTime)
-			Latency = append(Latency, data.Latency)
+			Send = processEvent(data.EventTime, lastSendTime, Send)
+			lastSendTime = data.EventTime
+			Latency = processLatency(data.EventTime, lastLatencyTime, Latency, data.Latency)
+			lastLatencyTime = data.EventTime
 		} else if data.EventType == "receive" {
-			ReceiveTime = append(ReceiveTime, data.EventTime)
-			Receive = append(Receive, 1)
-			LatencyTime = append(LatencyTime, data.EventTime)
-			Latency = append(Latency, data.Latency)
+			Receive = processEvent(data.EventTime, lastReceiveTime, Send)
+			lastReceiveTime = data.EventTime
+			Latency = processLatency(data.EventTime, lastLatencyTime, Latency, data.Latency)
+			lastLatencyTime = data.EventTime
 		}
 	}
 }
 
-func HandleMetricsLatency() ([]float64, []time.Time) {
+func HandleMetricsLatency() ([]int64, []time.Time) {
 	return Latency, LatencyTime
 }
 

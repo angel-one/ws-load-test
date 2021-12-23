@@ -32,9 +32,20 @@ func latencyController(ctx *gin.Context) {
 	ctx.Writer.WriteHeader(http.StatusOK)
 	ctx.Writer.Header().Set("Content-Type", "image/png")
 	data, timeSeries := business.HandleMetricsLatency()
-	graph := charts.DrawChart(data, timeSeries, "time", "latency")
+	graph := charts.DrawChart(convert64(data), timeSeries, "time", "latency")
 	graph.Render(chart.PNG, ctx.Writer)
 }
+
+func convert64(ar []int64) []float64 {
+	newar := make([]float64, len(ar))
+	var v int64
+	var i int
+	for i, v = range ar {
+		newar[i] = float64(v)
+	}
+	return newar
+}
+
 
 // Ws Load Test Connection godoc
 // @Summary Connection

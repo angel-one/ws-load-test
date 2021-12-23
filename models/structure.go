@@ -14,7 +14,7 @@ type TestResult struct {
 	ReceiveTimeLatest time.Time
 	EventTime         time.Time
 	EventType         string
-	Latency           float64
+	Latency           int64
 	ReceivedMsgCount  int64
 	SendMsgCount      int64
 	HasEnded          bool
