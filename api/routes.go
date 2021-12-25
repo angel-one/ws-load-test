@@ -11,6 +11,7 @@ func MetricRoutes(group *gin.RouterGroup) {
 	group.GET("receive", receiveController)
 	group.GET("error", errorController)
 	group.GET("connection", connectionController)
+	group.GET("dashboard", dashboardController)
 
 }
 

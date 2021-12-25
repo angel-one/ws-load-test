@@ -12,7 +12,9 @@ import (
 	"github.com/angel-one/ws-load-test/utils/configs"
 	"github.com/angel-one/ws-load-test/utils/flags"
 	_ "github.com/go-sql-driver/mysql"
+	"os"
 	"runtime"
+	"time"
 )
 
 // @title WS Load Test
@@ -31,6 +33,19 @@ func main() {
 	go business.Init()
 	go startRouter()
 	business.LoadTest(results)
+	saveReport()
+}
+
+func saveReport() {
+	dataPathName := "Ws-load-test-"+time.Now().Format(time.RFC3339)
+	os.MkdirAll(dataPathName, os.ModePerm)
+
+	data := business.GetImages()
+	for text, image := range data {
+		file, _ := os.Create(dataPathName+"/"+text)
+		defer file.Close()
+		image.WriteTo(file)
+	}
 }
 
 func initConfigs() {
@@ -47,6 +62,7 @@ func startLogger() {
 
 func startRouter() {
 	router := api.GetRouter(middlewares.Logger(middlewares.LoggerMiddlewareOptions{}))
+	router.LoadHTMLGlob("template/*.tmpl")
 	err := router.Run(fmt.Sprintf(":%d", flags.ServerPort()))
 	if err != nil {
 		log.Fatal(nil).Err(err).Msg("error starting router")

@@ -1,0 +1,17 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <title>Ws Load Test</title>
+</head>
+<body>
+<div class="margin-body-log-in-worker">
+    <div class="row">
+        {{range .images}}
+        <div class="col-4 col-sm-4 col-md-3 col-xl-2 center">
+            <img src="data:image/png;base64,{{.}}" class="img-fluid image-dashboard" width="800" height="500    "/>
+        </div>
+        {{end}}
+    </div>
+</div>
+</body>
+</html>
