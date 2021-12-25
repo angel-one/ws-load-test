@@ -10,20 +10,20 @@ import (
 
 func HandlePingPong(wsconn *websocket.Conn, testState *models.TestResult, queue chan *models.TestResult) {
 	done := make(chan struct{})
-	sendTime := time.Now()
-	isSendDone := false
+	ff := &LatencyHolder{}
 	go func() {
 		defer close(done)
 		for {
 			_, message, err := wsconn.ReadMessage()
 			testState.ReceiveTimeLatest = time.Now()
 			testState.ReceivedMsgCount++
-			if testState.ReceivedMsgCount == 1{
+			if testState.ReceivedMsgCount == 1 {
 				testState.ReceiveTimeFirst = time.Now()
 			}
-			if isSendDone {
-				testState.Latency = testState.EventTime.Second() - sendTime.Second()
-				isSendDone = false
+			val1, val2 := ff.Get()
+			if val1 {
+				testState.Latency = testState.EventTime.Second() - val2.Second()
+				ff.SetBool(false)
 			}
 			testState.EventType = "receive"
 			testState.EventTime = time.Now()
@@ -42,12 +42,11 @@ func HandlePingPong(wsconn *websocket.Conn, testState *models.TestResult, queue 
 		time.Sleep(time.Second * time.Duration(flags.WriteTime()))
 		testState.SendTimeLatest = time.Now()
 		testState.SendMsgCount++
-		if testState.SendMsgCount == 1{
-			testState.SendTimeFirst =  time.Now()
+		if testState.SendMsgCount == 1 {
+			testState.SendTimeFirst = time.Now()
 		}
 		testState.EventType = "send"
-		isSendDone = true
-		sendTime = testState.EventTime
+		ff.Set(true, testState.EventTime)
 		testState.EventTime = time.Now()
 		wsconn.WriteMessage(websocket.TextMessage, []byte("ping"))
 		log.Info(nil).Str("message", string("ping")).Msg("sent message to ws")
