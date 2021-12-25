@@ -7,7 +7,7 @@ import (
 
 var mainCh chan *models.TestResult
 var LatencyTime []time.Time
-var Latency []int64
+var Latency []int
 var TotalConnection []float64
 var Error []float64
 var Receive []float64
@@ -43,17 +43,17 @@ func processEvent(eventTime time.Time, lastTime time.Time, slice []float64)  []f
 	return slice
 }
 
-func processLatency(eventTime time.Time, lastTime time.Time, slice []int64, latency int64)  []int64{
+func processLatency(eventTime time.Time, lastTime time.Time, slice []int, latency int)  []int{
 	if len(slice) == 0 {
 		slice = append(slice, 0)
 	}
 	if eventTime.Minute() == lastTime.Minute() {
-		var val int64= 0
+		var val int= 0
 		if len(slice) > 0 {
 			val = slice[len(slice)-1]
 		}
 		slice = slice[:len(slice)-1]
-		slice = append(slice, val+latency)
+		slice = append(slice, (val+latency)/2)
 	} else {
 		for i := lastTime.Minute() + 1; i < eventTime.Minute()-1; i++ {
 			slice = append(slice, 0)
@@ -94,7 +94,7 @@ func Init() {
 	}
 }
 
-func HandleMetricsLatency() ([]int64, []time.Time) {
+func HandleMetricsLatency() ([]int, []time.Time) {
 	return Latency, LatencyTime
 }
 

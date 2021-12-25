@@ -10,13 +10,18 @@ import (
 
 func HandleBasic(wsconn *websocket.Conn, testState *models.TestResult) {
 	done := make(chan struct{})
+	sendTime := time.Now()
+	isSendDone := false
 	go func() {
 		defer close(done)
 		for {
 			_, message, err := wsconn.ReadMessage()
 			testState.ReceiveTimeLatest = time.Now()
 			testState.ReceivedMsgCount++
-			testState.Latency = testState.Latency - testState.SendTimeLatest.UnixMilli()
+			if isSendDone {
+				testState.Latency = testState.EventTime.Second() - sendTime.Second()
+				isSendDone = false
+			}
 			if err != nil {
 				log.Error(nil).Err(err).Msg("error receiving message from ws")
 				return
@@ -30,7 +35,8 @@ func HandleBasic(wsconn *websocket.Conn, testState *models.TestResult) {
 		time.Sleep(time.Second * time.Duration(flags.WriteTime()))
 		testState.SendTimeLatest = time.Now()
 		testState.SendMsgCount++
-		testState.Latency = testState.Latency - testState.SendTimeLatest.UnixMilli()
+		isSendDone = true
+		sendTime = testState.EventTime
 		wsconn.WriteMessage(websocket.TextMessage, []byte(flags.MessageText()))
 		select {
 		case <-done:
