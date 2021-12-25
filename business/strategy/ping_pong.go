@@ -10,6 +10,8 @@ import (
 
 func HandlePingPong(wsconn *websocket.Conn, testState *models.TestResult, queue chan *models.TestResult) {
 	done := make(chan struct{})
+	sendTime := time.Now()
+	isSendDone := false
 	go func() {
 		defer close(done)
 		for {
@@ -19,7 +21,10 @@ func HandlePingPong(wsconn *websocket.Conn, testState *models.TestResult, queue 
 			if testState.ReceivedMsgCount == 1{
 				testState.ReceiveTimeFirst = time.Now()
 			}
-			testState.Latency = testState.Latency - testState.SendTimeLatest.UnixMilli()
+			if isSendDone {
+				testState.Latency = testState.EventTime.Second() - sendTime.Second()
+				isSendDone = false
+			}
 			testState.EventType = "receive"
 			testState.EventTime = time.Now()
 			if err != nil {
@@ -41,7 +46,8 @@ func HandlePingPong(wsconn *websocket.Conn, testState *models.TestResult, queue 
 			testState.SendTimeFirst =  time.Now()
 		}
 		testState.EventType = "send"
-		testState.Latency = testState.Latency - testState.SendTimeLatest.UnixMilli()
+		isSendDone = true
+		sendTime = testState.EventTime
 		testState.EventTime = time.Now()
 		wsconn.WriteMessage(websocket.TextMessage, []byte("ping"))
 		log.Info(nil).Str("message", string("ping")).Msg("sent message to ws")

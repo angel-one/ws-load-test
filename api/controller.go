@@ -18,7 +18,7 @@ import (
 func welcomeController(ctx *gin.Context) {
 	log.Debug(ctx).Msg("received report request")
 	ctx.Writer.WriteHeader(http.StatusOK)
-	body := "<h1>Hello Carrot!</h1>"
+	body := "Hello WS Load Test!"
 	fmt.Fprint(ctx.Writer, body)
 }
 
