@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/angel-one/go-utils/log"
 	"github.com/angel-one/ws-load-test/business"
+	"github.com/angel-one/ws-load-test/utils"
 	"github.com/angel-one/ws-load-test/utils/charts"
 	"github.com/gin-gonic/gin"
 	"github.com/wcharczuk/go-chart"
@@ -34,18 +35,8 @@ func latencyController(ctx *gin.Context) {
 	ctx.Writer.WriteHeader(http.StatusOK)
 	ctx.Writer.Header().Set("Content-Type", "image/png")
 	data, timeSeries := business.HandleMetricsLatency()
-	graph := charts.DrawChart(convert64(data), timeSeries, "time", "latency")
+	graph := charts.DrawChart(utils.Convert64(data), timeSeries, "time", "latency")
 	graph.Render(chart.PNG, ctx.Writer)
-}
-
-func convert64(ar []int) []float64 {
-	newar := make([]float64, len(ar))
-	var v int
-	var i int
-	for i, v = range ar {
-		newar[i] = float64(v)
-	}
-	return newar
 }
 
 // Ws Load Test Connection godoc

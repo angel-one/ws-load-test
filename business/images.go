@@ -2,6 +2,7 @@ package business
 
 import (
 	"bytes"
+	"github.com/angel-one/ws-load-test/utils"
 	"github.com/angel-one/ws-load-test/utils/charts"
 	"github.com/wcharczuk/go-chart"
 )
@@ -21,7 +22,7 @@ func GetImages() map[string]bytes.Buffer{
 	graph.Render(chart.PNG, sendBuffer)
 	data["send"] = *sendBuffer
 
-	connection, timeSeries := HandleMetricsSend()
+	connection, timeSeries := HandleMetricsConnection()
 	connectionBuffer := bytes.NewBuffer([]byte{})
 	graph = charts.DrawChart(connection, timeSeries, "time", "connection")
 	graph.Render(chart.PNG, connectionBuffer)
@@ -33,9 +34,9 @@ func GetImages() map[string]bytes.Buffer{
 	graph.Render(chart.PNG, errorBuffer)
 	data["errors"] = *errorBuffer
 
-	latency, timeSeries := HandleMetricsError()
+	latency, timeSeries := HandleMetricsLatency()
 	latencyBuffer := bytes.NewBuffer([]byte{})
-	graph = charts.DrawChart(latency, timeSeries, "time", "latency")
+	graph = charts.DrawChart(utils.Convert64(latency), timeSeries, "time", "latency")
 	graph.Render(chart.PNG, latencyBuffer)
 	data["latency"] = *latencyBuffer
 

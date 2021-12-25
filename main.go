@@ -42,7 +42,7 @@ func saveReport() {
 
 	data := business.GetImages()
 	for text, image := range data {
-		file, _ := os.Create(dataPathName+"/"+text)
+		file, _ := os.Create(dataPathName+"/"+text+".png")
 		defer file.Close()
 		image.WriteTo(file)
 	}
