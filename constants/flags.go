@@ -1,6 +1,5 @@
 package constants
 
-// Flag constants
 const (
 	PortKey                    = "port"
 	PortDefaultValue           = 8080

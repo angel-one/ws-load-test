@@ -6,6 +6,3 @@
 
 --host 172.31.25.37:8080 --protocol ws --requestCount 1000 --gapTime 500 --path /mds --lifeTime 1 --messageText all_ticks --writeTime 500   
 
-{"a": 1,"p": {"m": 1,"e": 5,"t": [
-"232899"
-]}}
