@@ -3,6 +3,37 @@ The load testing library for websockets. Provide inbuild test strategies and all
 
 ## Using ws-load-test
 
+Clone this repository and move into this directory.
+
+```shell
+git clone git@github.com:angel-one/ws-load-test.git
+cd ws-load-test
+```
+
+Resolve dependencies
+
+```shell
+go mod init
+go mod tidy
+````
+
+Generate binaries
+
+```shell
+go install
+go build
+````
+
+Binary named ws-load-test will be present in root directory. Run this with ws server details.
+
+```shell
+./ws-load-test --host 172.31.25.37:8080 --protocol ws --requestCount 1000 --gapTime 500 --path /mds --lifeTime 1 --strategy ping_pong --writeTime 1
+```
+
+Make sure metrices are generated
+Swagger should be up http://localhost:8080/swagger/index.html#/
+Send messages should be visible http://localhost:8080/send
+
 
 ## Runtime Arguments
 
@@ -61,22 +92,25 @@ There are 3 type of load testes which are supported by this library. 2 of these 
 ### Basic Message Publish
 This is used to send a custom periodic message to ws server with provided configurations.
 
-#### ./ws-load-test --host 172.31.25.37:8080 --protocol ws --requestCount 1000 --gapTime 500 --path /smart-stream --lifeTime 10 --strategy exchange_tick --writeTime 2
-
+```shell
+./ws-load-test --host 172.31.25.37:8080 --protocol ws --requestCount 1000 --gapTime 500 --path /smart-stream --lifeTime 10 --strategy exchange_tick --writeTime 2
+```
 The above command will start test where a string "exchange_tick" will be send to ws server every 2 seconds. A total of 1000 requests will be created with a start up wait time of 500 ms between 2 established connections.
 
 ### Ping-Pong Strategy Publish
 This is used to send a "ping" periodic message to ws server. This also handles the "pong" message which is sent from ws server.
 
-#### ./ws-load-test --host 172.31.25.37:8080 --protocol ws --requestCount 1000 --gapTime 500 --path /mds --lifeTime 1 --strategy ping_pong --writeTime 1
-
+```shell
+./ws-load-test --host 172.31.25.37:8080 --protocol ws --requestCount 1000 --gapTime 500 --path /mds --lifeTime 1 --strategy ping_pong --writeTime 1
+```
 The above command will start test with ping pong strategy. A total of 1000 requests will be created with a start up wait time of 500 ms between 2 established connections. Ping message will sent to ws server every 1 second.
 
 ### Custom  Load Test Strategy
 This is used to send a "ping" periodic message to ws server. This also handles the "pong" message which is sent from ws server.
 
-#### ./ws-load-test --host 172.31.25.37:8080 --protocol ws --requestCount 1000 --gapTime 500 --path /smart-stream --lifeTime 10 --strategy exchange_tick --writeTime 9999
-
+```shell
+./ws-load-test --host 172.31.25.37:8080 --protocol ws --requestCount 1000 --gapTime 500 --path /smart-stream --lifeTime 10 --strategy exchange_tick --writeTime 9999
+```
 Above example shows running a load test with custom strategy named exchange_tick. This strategy has a logic of sending a messge and receive stock markets ticks in  a streaming fashion. A total of 100 connections are made with a gap up time in 500 ms.
 
 
