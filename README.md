@@ -20,16 +20,19 @@ Swagger link : http://localhost:8080/swagger/index.html#/
 All metrics are emitted aggregated per minute
 
 1. Send Message Count (http://localhost:8080/send)
+![img_3.png](img_3.png)
 
-2. Receive Message Count (http://localhost:8080/receive)
+3. Receive Message Count (http://localhost:8080/receive)
+![img_2.png](img_2.png)
 
-3. Total connections Count (http://localhost:8080/connection)
+4. Total connections Count (http://localhost:8080/connection)
+![img_1.png](img_1.png)
 
-4. Error Count (http://localhost:8080/error)
+5. Error Count (http://localhost:8080/error)
 
-5. Latency (http://localhost:8080/latency)
+6. Latency (http://localhost:8080/latency)
 
-6. Dashboard. Overall dashboard containing all metrics (http://localhost:8080/dashboard)
+7. Dashboard. Overall dashboard containing all metrics (http://localhost:8080/dashboard)
 
 ## Strategies
 
