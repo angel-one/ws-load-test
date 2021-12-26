@@ -49,7 +49,7 @@ func HandleBasic(wsconn *websocket.Conn, testState *models.TestResult, queue cha
 		ff.Set(true, testState.EventTime)
 		testState.EventTime = time.Now()
 		wsconn.WriteMessage(websocket.TextMessage, []byte(flags.MessageText()))
-		log.Info(nil).Str("message", string("ping")).Msg("sent message to ws")
+		log.Info(nil).Str("message", flags.MessageText()).Msg("sent message to ws")
 		sendResult := testState
 		queue <- sendResult
 		select {
@@ -73,5 +73,4 @@ func HandleBasic(wsconn *websocket.Conn, testState *models.TestResult, queue cha
 			return
 		}
 	}
-
 }
