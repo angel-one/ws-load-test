@@ -28,7 +28,7 @@ func test(counter *models.Counter, queue chan *models.TestResult, result *models
 		if flags.Strategy() == "ping_pong" {
 			strategy.HandlePingPong(conn, result, queue)
 		} else if flags.Strategy() == "exchange_tick" {
-			strategy.HandleExchangeTick(conn, result)
+			strategy.HandleExchangeTick(conn, result, queue)
 		}
 	} else {
 		strategy.HandleBasic(conn, result, queue)
