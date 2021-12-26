@@ -39,7 +39,9 @@ func HandleBasic(wsconn *websocket.Conn, testState *models.TestResult, queue cha
 	ticker := time.NewTicker(time.Second * time.Duration(flags.LifeTime()))
 	defer ticker.Stop()
 	for {
-		time.Sleep(time.Second * time.Duration(flags.WriteTime()))
+		if testState.SendMsgCount != 0 {
+			time.Sleep(time.Second * time.Duration(flags.WriteTime()))
+		}
 		testState.SendTimeLatest = time.Now()
 		testState.SendMsgCount++
 		if testState.SendMsgCount == 1 {
