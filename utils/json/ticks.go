@@ -20,6 +20,10 @@ func GetJsonStringSubscription() string{
 	for i:=0; i < 10; i++ {
 		val = val + "\"" + getScripValue() + "\","
 	}
+	sz := len(val)
+	if sz > 0 && val[sz-1] == ',' {
+		val = val[:sz-1]
+	}
 	return prefix + val + postfix
 }
 
