@@ -14,4 +14,4 @@ then
     exit
 fi
 
-$go_command build -tags=jsoniter -ldflags "-X github.com/sinhashubham95/go-actuator.BuildStamp=1234 -X github.com/sinhashubham95/go-actuator.GitCommitID=1234 -X github.com/sinhashubham95/go-actuator.GitPrimaryBranch=1234 -X github.com/sinhashubham95/go-actuator.GitURL=https://commit.angelbroking.com/SHUBHAM.SINHA/ws-load-test -X github.com/sinhashubham95/go-actuator.Username=shubham.sinha -X github.com/sinhashubham95/go-actuator/core.HostName=shubham.sinha  -X github.com/sinhashubham95/go-actuator/core.GitCommitTime=1234 -X github.com/sinhashubham95/go-actuator/core.GitCommitAuthor=shubham.sinha"
+$go_command build -tags=jsoniter

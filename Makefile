@@ -1,5 +1,5 @@
-naruto:
-	@./scripts/naruto.sh
+wsLoadTest:
+	@./scripts/amx.sh
 
 checkGO:
 	@./scripts/checkGO.sh
@@ -19,22 +19,22 @@ checkGSED:
 checkGolangCILint:
 	@./scripts/checkGolangCILint.sh
 
-doctor: naruto checkGO checkGIT checkPreCommit checkSwagger checkGolangCILint checkGSED
+doctor: wsLoadTest checkGO checkGIT checkPreCommit checkSwagger checkGolangCILint checkGSED
 
-init: naruto
+init: wsLoadTest
 	@./scripts/init.sh
 
-install: naruto
+install: wsLoadTest
 	@./scripts/install.sh
 
-swagger: naruto
+swagger: wsLoadTest
 	@./scripts/swagger.sh
 
-verify: naruto
+verify: wsLoadTest
 	@./scripts/verify.sh
 
-test: naruto
+test: wsLoadTest
 	@./scripts/test.sh
 
-build: naruto
+build: wsLoadTest
 	@./scripts/build.sh

@@ -36,6 +36,15 @@ var doc = `{
                 "summary": "Connection"
             }
         },
+        "/dashboard": {
+            "get": {
+                "description": "Dashboard",
+                "tags": [
+                    "Dashboard API V1"
+                ],
+                "summary": "Dashboard"
+            }
+        },
         "/error": {
             "get": {
                 "description": "Error",

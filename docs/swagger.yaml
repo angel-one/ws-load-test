@@ -14,6 +14,12 @@ paths:
       summary: Connection
       tags:
       - Connection API V1
+  /dashboard:
+    get:
+      description: Dashboard
+      summary: Dashboard
+      tags:
+      - Dashboard API V1
   /error:
     get:
       description: Error
