@@ -31,7 +31,7 @@ func test(counter *models.Counter, queue chan *models.TestResult, result *models
 			strategy.HandleExchangeTick(conn, result)
 		}
 	} else {
-		strategy.HandleBasic(conn, result)
+		strategy.HandleBasic(conn, result, queue)
 	}
 }
 
