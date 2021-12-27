@@ -73,17 +73,21 @@ All metrics are emitted aggregated per minute
 1. Send Message Count (http://localhost:8080/send)
 ![img_3.png](img_3.png)
 
-3. Receive Message Count (http://localhost:8080/receive)
+2. Receive Message Count (http://localhost:8080/receive)
 ![img_2.png](img_2.png)
 
-4. Total connections Count (http://localhost:8080/connection)
+3. Total connections Count (http://localhost:8080/connection)
 ![img_1.png](img_1.png)
 
-5. Error Count (http://localhost:8080/error)
+4. Error Count (http://localhost:8080/error)
 
-6. Latency (http://localhost:8080/latency)
+5. Latency (http://localhost:8080/latency)
 
-7. Dashboard. Overall dashboard containing all metrics (http://localhost:8080/dashboard)
+6. Dashboard. Overall dashboard containing all metrics (http://localhost:8080/dashboard)
+
+### End of Test Reports
+After completion of test, all metrics are pushed to newly created directory.
+![img_4.png](img_4.png)
 
 ## Strategies
 
