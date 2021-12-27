@@ -9,7 +9,7 @@ import (
 )
 
 var scripList []string
-var prefix = "{\"a\": 1,\"p\": {\"m\": 1,\"e\": 5,\"t\": [ "
+var prefix = "{\"a\": 1,\"p\": {\"m\": 1,\"e\": 1,\"t\": [ "
 var postfix = " ]}}"
 
 func GetJsonStringSubscription() string{
@@ -17,7 +17,7 @@ func GetJsonStringSubscription() string{
 		readScrips()
 	}
 	val := ""
-	for i:=0; i < 10; i++ {
+	for i:=0; i < 5; i++ {
 		val = val + "\"" + getScripValue() + "\","
 	}
 	sz := len(val)

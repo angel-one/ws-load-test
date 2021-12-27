@@ -77,7 +77,7 @@ func sendController(ctx *gin.Context) {
 	ctx.Writer.WriteHeader(http.StatusOK)
 	ctx.Writer.Header().Set("Content-Type", "image/png")
 	data, timeSeries := business.HandleMetricsSend()
-	graph := charts.DrawChart(data, timeSeries, "time", "errors")
+	graph := charts.DrawChart(data, timeSeries, "time", "send message count")
 	graph.Render(chart.PNG, ctx.Writer)
 }
 
@@ -91,7 +91,7 @@ func receiveController(ctx *gin.Context) {
 	ctx.Writer.WriteHeader(http.StatusOK)
 	ctx.Writer.Header().Set("Content-Type", "image/png")
 	data, timeSeries := business.HandleMetricsReceive()
-	graph := charts.DrawChart(data, timeSeries, "time", "errors")
+	graph := charts.DrawChart(data, timeSeries, "time", "receive message count")
 	graph.Render(chart.PNG, ctx.Writer)
 }
 
