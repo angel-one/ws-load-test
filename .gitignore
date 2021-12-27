@@ -1,5 +1,5 @@
 .idea/
-
+*.log
 *.out
-
-amx-reports
+ws-load-test
+profile.cov
